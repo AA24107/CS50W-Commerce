@@ -1,0 +1,101 @@
+{% extends "auctions/layout.html" %}
+
+{% block title%} {{ listing.title}} {% endblock %}
+
+
+{% block body %}
+    {% if message %}
+        <div class="container mb-2 card" style="align-items: center; background-color: lightcoral;">{{ message }}</div>
+    {% endif %} 
+
+    <div class = "container mb-2" >
+        <div class="row">
+            <div class="card col-md-6">
+                <h1>{{listing.title}}</h1>
+                <form method="post" action="{% url 'listing' listing.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" type="submit" name="watchlist">
+                        {% if is_watched %}
+                            Remove
+                        {% else %}
+                            Watchlist
+                        {% endif %}
+                    </button>
+                </form>
+
+                <hr>
+                <p> {{listing.description}}</p>
+                <p><strong>Initial Price: ${{listing.initial_price}}</strong></p>
+                <p><strong> Highest bid: ${{listing.current_price}} </strong></p>
+                <p> Category: {{listing.category}}</p>
+                <p> Posted by: {{listing.owner.username}}</p>
+                <img src="{{ listing.image_url }}">
+                {% if listing.active == True %}
+                <p> Active</p>
+                {% else %}
+                <p>Not active</p>
+                {% endif %}
+
+                <div>
+                    <form action="{% url 'listing' listing.id %}" method="post">
+                        {% csrf_token %}
+
+                        <input name="bid" type="number" >
+                        <br>
+                        <br>
+                        <button name="place_bid" type="submit" class="btn btn-primary">Place a bid</button>
+                    </form>
+                </div>
+            <hr>
+                <h1>Comments</h1>
+                <h4>add a comment</h4>
+                <form action="{% url 'listing' listing.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="comment" rows="4" cols="50"></textarea>
+                    <br>
+                    <button name="add_comment" type="submit" class="btn btn-primary">Add Comment</button>
+                {% for comment in comments %}
+                    <li>
+                        <div class="card">
+                            <strong>{{comment.commenter}}</strong>
+                            <br>
+                            <h5>{{comment.content}}</h5> 
+                            <p>{{comment.comment_time}}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+
+            </div>
+            <div class="col-md-6">
+                <hr>
+                <ul>
+                    <div>
+                        <hr>
+                        <h1>Bid History</h1>
+                        <hr>
+                        {% for b in bid %}
+                        <li>
+                            <div class="card">
+                                <strong>{{b.bidder}}</strong>
+                                <br>
+                                <h4>${{b.amount}}</h4> 
+                                <p>{{b.bid_time}}</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!--
+                <button class="btn btn-secondary" style="width: 200px;">
+                    <a href="{% url 'watchlist' listing.id %}" style="text-decoration: none; color: black;">
+                        {% if listing in watchlist %}
+                            Remove
+                        {% else %}
+                            Watchlist
+                        {% endif %}
+                    </a></button>
+                -->

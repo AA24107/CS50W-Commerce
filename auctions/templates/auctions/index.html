@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    <ul>
+        {% for listing in listings %}
+            <li>
+                <div class="container mb-3 card">
+                    <h1>{{ listing.title }}</h1>
+                    <img src = '{{ listing.image_url }}' style="max-width: 200px; max-height: 200px;">
+                    <h4>{{ listing.description }}</h4>
+                    <p><strong>${{ listing.current_price }}</strong></p>
+                    <a href="{% url 'listing' listing.id %}">  More details </a>
+                </div>
+            </li>
+        {% empty %}
+            <li>No active listings available.</li>
+        {% endfor %}
+    
+{% endblock %}
