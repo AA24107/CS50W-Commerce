@@ -12,17 +12,29 @@
         <div class="row">
             <div class="card col-md-6">
                 <h1>{{listing.title}}</h1>
-                <form method="post" action="{% url 'listing' listing.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-secondary" type="submit" name="watchlist">
-                        {% if is_watched %}
-                            Remove
-                        {% else %}
-                            Watchlist
-                        {% endif %}
-                    </button>
-                </form>
+                <hr>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <form method="post" action="{% url 'listing' listing.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-secondary" type="submit" name="watchlist">
+                            {% if is_watched %}
+                                Remove
+                            {% else %}
+                                Watchlist
+                            {% endif %}
+                        </button>
+                    </form>
+                    <br>
+                    <form method="post" action="{% url 'listing' listing.id%}">
+                        {% csrf_token %}
+                        {% if user == listing.owner %}
+                            <button class="btn btn-danger" type="submit" name="close">
+                                Close
+                            </button>
 
+                        {% endif %}
+                    </form>
+                </div>
                 <hr>
                 <p> {{listing.description}}</p>
                 <p><strong>Initial Price: ${{listing.initial_price}}</strong></p>
@@ -48,7 +60,7 @@
                 </div>
             <hr>
                 <h1>Comments</h1>
-                <h4>add a comment</h4>
+                <h6>Add a comment</h6>
                 <form action="{% url 'listing' listing.id %}" method="post">
                     {% csrf_token %}
                     <textarea name="comment" rows="4" cols="50"></textarea>
@@ -89,13 +101,3 @@
         </div>
     </div>
 {% endblock %}
-<!--
-                <button class="btn btn-secondary" style="width: 200px;">
-                    <a href="{% url 'watchlist' listing.id %}" style="text-decoration: none; color: black;">
-                        {% if listing in watchlist %}
-                            Remove
-                        {% else %}
-                            Watchlist
-                        {% endif %}
-                    </a></button>
-                -->

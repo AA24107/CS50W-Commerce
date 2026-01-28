@@ -66,13 +66,14 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 def create(request):
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST["description"]
         initial_price = int(request.POST["initial_price"])
         image_url = request.POST["image_url"]
-        category = request.POST["category"]
+        category = request.POST["category"].lower()
         
         active = "active" in request.POST
 
@@ -91,10 +92,16 @@ def create(request):
 
     return render(request, "auctions/create.html")
 
+
 def listing(request, listing_id):
     listing = Listings.objects.get(id=listing_id)
     last_bid = listing.current_price
     is_watched = False
+    message = None
+    highest_bidder = Bid.objects.filter(listing=listing).order_by("-amount").first()
+
+    if listing.active == False:
+        f"{highest_bidder.bidder.username} has won the bid"
 
     if request.user.is_authenticated:
         is_watched = listing in request.user.watchlist.all()
@@ -110,11 +117,18 @@ def listing(request, listing_id):
                 )
                 listing.current_price = bid
                 listing.save()
+            else:
+                message = "Please bid higher"
+                print(message)
 
-            return HttpResponseRedirect(
-                reverse("listing", args=[listing.id])
-            )
-
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "bid": Bid.objects.filter(listing=listing).order_by("-amount"),
+                "is_watched": is_watched,
+                "comments": Comment.objects.filter(listing=listing),
+                "user" : request.user,
+                "message" : message
+            })
         if "add_comment" in request.POST:
             comment_content = request.POST.get("comment")
             if comment_content:
@@ -136,12 +150,23 @@ def listing(request, listing_id):
             return HttpResponseRedirect(
                 reverse("listing", args=[listing.id])
             )
+        else:
+            message = f"please log in"
+        if 'close' in request.POST:
+            if request.user == listing.owner and request.user.is_authenticated:
+                listing.active = False
+                listing.save()
+                message = f"{highest_bidder.bidder.username} has won the bid"
 
+        
+        print(message)
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "bid": Bid.objects.filter(listing=listing).order_by("-amount"),
         "is_watched": is_watched,
-        "comments": Comment.objects.filter(listing=listing)
+        "comments": Comment.objects.filter(listing=listing),
+        "user" : request.user,
+        "message" : message,
     })
 
 
@@ -149,3 +174,23 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "listings": request.user.watchlist.all()
     })
+
+
+def categories(request):
+    category = []
+    listings = Listings.objects.all()
+    for l in listings:
+        category.append(l.category)
+    categories = set(category)
+    print(categories)
+    return render(request, "auctions/categories.html", {
+        "categories" : categories,
+    })
+
+def category_listing(request, category):
+    listings = Listings.objects.filter(category=category)
+    print(listings)
+    return render(request, "auctions/category_listing.html", {
+                  "listings": listings,
+                  "category": category,
+                  })

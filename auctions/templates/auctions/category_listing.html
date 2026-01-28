@@ -1,10 +1,11 @@
 {% extends 'auctions/layout.html' %}
-
-{% block title %} Watchlist {% endblock %}
+{% block title %} Categories {{category}} {% endblock %}
 
 {% block body %}
-    {% for listing in listings %}
-        <li>
+<div>
+    <ul>
+        {% for listing in listings %}
+            <li>
                 <div class="container mb-3 card">
                     <h1>{{ listing.title }}</h1>
                     <img src = '{{ listing.image_url }}' style="max-width: 200px; max-height: 200px;">
@@ -13,8 +14,7 @@
                     <a href="{% url 'listing' listing.id %}">  More details </a>
                 </div>
             </li>
-    {% empty %}
-        <h4> Nothing here!! <h4>
-    {% endfor %}
-
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
