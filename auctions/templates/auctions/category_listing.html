@@ -5,6 +5,7 @@
 <div>
     <ul>
         {% for listing in listings %}
+            {% if listing.active == True %}
             <li>
                 <div class="container mb-3 card">
                     <h1>{{ listing.title }}</h1>
@@ -14,7 +15,9 @@
                     <a href="{% url 'listing' listing.id %}">  More details </a>
                 </div>
             </li>
+            {% endif %}
         {% endfor %}
+        
     </ul>
 </div>
 {% endblock %}

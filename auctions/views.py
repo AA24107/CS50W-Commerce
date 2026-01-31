@@ -101,7 +101,8 @@ def listing(request, listing_id):
     highest_bidder = Bid.objects.filter(listing=listing).order_by("-amount").first()
 
     if listing.active == False:
-        f"{highest_bidder.bidder.username} has won the bid"
+        if highest_bidder:
+            f"{highest_bidder.bidder.username} has won the bid"
 
     if request.user.is_authenticated:
         is_watched = listing in request.user.watchlist.all()
@@ -156,10 +157,11 @@ def listing(request, listing_id):
             if request.user == listing.owner and request.user.is_authenticated:
                 listing.active = False
                 listing.save()
-                message = f"{highest_bidder.bidder.username} has won the bid"
+                if highest_bidder:
+                    message = f"{highest_bidder.bidder.username} has won the bid"
+                else:
+                    pass
 
-        
-        print(message)
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "bid": Bid.objects.filter(listing=listing).order_by("-amount"),
@@ -188,8 +190,7 @@ def categories(request):
     })
 
 def category_listing(request, category):
-    listings = Listings.objects.filter(category=category)
-    print(listings)
+    listings = Listings.objects.filter(category=category) 
     return render(request, "auctions/category_listing.html", {
                   "listings": listings,
                   "category": category,
