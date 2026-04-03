@@ -3,10 +3,10 @@
 
 
 ## Overview
-An eBay-like auction site built with Django, where users can create listings, place bids, comment, and manage a personalized watchlist.
+An e-commerce auction platform inspired by eBay, built with Django. Users can create listings, place bids, comment, and manage a personalized watchlist.
 
 
-##  Features
+## Features
 
 1. User Authentication
 
@@ -39,11 +39,9 @@ An eBay-like auction site built with Django, where users can create listings, pl
 * Add comments
 
 5. Bidding System
-
-* Ensures bids are valid:
-  - Must be greater than current highest bid
-* Displays error message for invalid bids
-* Automatically updates listing price
+* Validates bids (must exceed current highest bid)
+* Updates listing price dynamically
+* Handles invalid bid feedback
 
 6. Watchlist
 
@@ -74,19 +72,28 @@ An eBay-like auction site built with Django, where users can create listings, pl
   - Comments
 
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Backend:** Django (Python)
 * **Frontend:** HTML, CSS, Bootstrap
 * **Database:** SQLite (default Django DB)
 
 
-## 🚀 How to Run the Project
+## Key Concepts
+
+* Django models and relational data design (Listings, Bids, Comments, Users)
+* Handling user authentication and session management
+* Form validation and server-side logic
+* Managing state (active vs closed listings)
+* Dynamic updates based on user interactions
+
+
+## How to Run the Project
 
 1. Clone the repository:
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/AA24107/CS50W-Commerce
    cd commerce
    ```
 
@@ -106,22 +113,8 @@ An eBay-like auction site built with Django, where users can create listings, pl
 
    ```bash
    python manage.py runserver
-   ```
-
-5. Open in browser:
-
-   ```
-   http://127.0.0.1:8000/
-   ```
 
 
-
-## 🎯 Notes
-
-* This project was developed as part of **CS50’s Web Programming with Python and JavaScript**
-* Focus was on understanding Django models, views, and user interaction logic
-
-
-## 📸 Demo
+## Demo
 
 [![Watch the demo](https://img.youtube.com/vi/HN7HNwUHNg8/0.jpg)](https://youtu.be/HN7HNwUHNg8)
