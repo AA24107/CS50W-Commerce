@@ -115,6 +115,10 @@ An e-commerce auction platform inspired by eBay, built with Django. Users can cr
    python manage.py runserver
 
 
+## Note
+This project was built following CS50W specifications. I used external resources and tools to support development, with a focus on understanding the implementation rather than building everything from scratch.
+
+
 ## Demo
 
 [![Watch the demo](https://img.youtube.com/vi/HN7HNwUHNg8/0.jpg)](https://youtu.be/HN7HNwUHNg8)
