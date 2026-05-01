@@ -3,7 +3,7 @@
 
 
 ## Overview
-An e-commerce auction platform inspired by eBay, built with Django. Users can create listings, place bids, comment, and manage a personalized watchlist.
+An eBay-inspired e-commerce auction platform built with Django. Users can create listings, place bids, comment, and manage a personalized watchlist.
 
 
 ## Features
@@ -116,7 +116,7 @@ An e-commerce auction platform inspired by eBay, built with Django. Users can cr
 
 
 ## Note
-This project was built following CS50W specifications. I used external resources and tools to support development, with a focus on understanding the implementation rather than building everything from scratch.
+This project was built following CS50W specifications. I used external resources and tools to support development, focusing on understanding the implementation rather than building everything from scratch.
 
 
 ## Demo
